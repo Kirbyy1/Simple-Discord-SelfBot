@@ -17,5 +17,32 @@ else:
     print("Failed to send message")
 ```
 
+Reading messages:
+```py
+discord_client = Discord(token=auth_token, user_agent=random_user_agent)
+
+response = discord_client.read_messages(channel_id='channel_id')
+
+if response.status_code == 200:
+    messages = response.json()
+    for message in messages:
+        print(f"Message ID: {message['id']} - Message: {message['content']}")
+else:
+    print("Failed to retrieve messages")
+```
+
+Deleting a message:
+```py
+discord_client = Discord(token=auth_token, user_agent=random_user_agent)
+
+response = discord_client.delete_message(channel_id='channel_id', message_id='message_id')
+
+if response.status_code == 204:
+    print("Message deleted successfully")
+else:
+    print("Failed to delete message")
+
+```
+
 # Terms of Use Disclaimer for Educational Project
 This project is for educational purposes only and any use in violation of terms of service is the responsibility of the user.
