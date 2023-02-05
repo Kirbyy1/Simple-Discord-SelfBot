@@ -13,6 +13,7 @@ random_user_agent = random.choice(requests.get(
 
 class Discord:
     MESSAGES = "https://discord.com/api/v9/channels/{channel_id}/messages"
+    JOIN_SERVER = "https://discord.com/api/v9/invite/{invite_code}"
 
     def __init__(self, token: str, **kwargs):
         self.proxy: str = kwargs.get('proxy', {})
@@ -47,6 +48,8 @@ class Discord:
         URL: str = f'{self.MESSAGES.format(channel_id=channel_id)}/{message_id}'
         return requests.delete(url=URL, headers=self.headers, proxies=self.proxy)
 
+    def join_server(self, invite_code: str):
+        URL = self.JOIN_SERVER.format(invite_code=invite_code)
+        return requests.post(url=URL, headers=self.headers, proxies=self.proxy)
 
-discord_client = Discord(token=auth_token, user_agent=random_user_agent)
-print(discord_client.send_message(channel_id='channel_id', message='Test').text)
+
