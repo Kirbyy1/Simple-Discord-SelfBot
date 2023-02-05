@@ -5,7 +5,7 @@ This project was created with the intention of conducting testing and was inspir
 A Discord selfbot is a type of bot that is specifically designed to run on a single user account. These bots can automate various tasks and perform actions on behalf of the user, such as sending messages, reacting to messages, and managing user data. However, it's important to note that the use of selfbots goes against Discord's terms of service and can result in the user's account being banned.
 
 # Examples
-* Sending a message:
+Sending a message:
 ```py
 discord_client = Discord(token=auth_token, user_agent=random_user_agent)
 
