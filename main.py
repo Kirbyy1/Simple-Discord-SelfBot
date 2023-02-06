@@ -15,6 +15,8 @@ class Discord:
     MESSAGES = "https://discord.com/api/v9/channels/{channel_id}/messages"
     JOIN_SERVER = "https://discord.com/api/v9/invite/{invite_code}"
 
+    FRIEND_LIST = "https://canary.discord.com/api/v8/users/@me/relationships"
+
     def __init__(self, token: str, **kwargs):
         self.proxy: str = kwargs.get('proxy', {})
 
@@ -51,5 +53,9 @@ class Discord:
     def join_server(self, invite_code: str):
         URL = self.JOIN_SERVER.format(invite_code=invite_code)
         return requests.post(url=URL, headers=self.headers, proxies=self.proxy)
+
+    def get_friends(self):
+        URL = self.FRIEND_LIST
+        return requests.get(URL, headers=self.headers)
 
 
