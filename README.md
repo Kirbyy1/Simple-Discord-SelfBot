@@ -44,5 +44,25 @@ else:
 
 ```
 
+# Example Project
+Delete all messages sent by you in a channel
+```py
+import time
+
+discord = Discord(token) # replace `token` with your Discord API token
+channel_id = "channel_id" # replace `channel_id` with the ID of the channel you want to delete messages from
+messages = discord.read_messages(channel_id).json()
+
+# Setting the rate limit to 90 requests per minute (1 request per 6.67 seconds)
+rate_limit = 90
+interval = 60 / rate_limit
+
+for message in messages:
+    if message["author"]["id"] == "user_id": # replace `user_id` with the ID of the user whose messages you want to delete
+        discord.delete_message(channel_id, message["id"])
+        time.sleep(interval)
+```
+
+
 # Terms of Use Disclaimer for Educational Project
 This project is for educational purposes only and any use in violation of terms of service is the responsibility of the user.
