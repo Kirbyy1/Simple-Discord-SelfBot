@@ -12,11 +12,11 @@ random_user_agent = random.choice(requests.get(
 # 429 = Rate Limit
 
 class Discord:
-    MESSAGES = "https://discord.com/api/v9/channels/{channel_id}/messages"
-    JOIN_SERVER = "https://discord.com/api/v9/invite/{invite_code}"
+    MESSAGES: str = "https://discord.com/api/v9/channels/{channel_id}/messages"
+    JOIN_SERVER: str = "https://discord.com/api/v9/invite/{invite_code}"
 
-    FRIEND_LIST = "https://canary.discord.com/api/v8/users/@me/relationships"
-    CHANNELS = "https://discord.com/api/v9/users/@me/channels"
+    FRIEND_LIST: str = "https://canary.discord.com/api/v8/users/@me/relationships"
+    CHANNELS: str = "https://discord.com/api/v9/users/@me/channels"
 
     def __init__(self, token: str, **kwargs):
         self.proxy: str = kwargs.get('proxy', {})
@@ -27,40 +27,39 @@ class Discord:
         user_agent: str = kwargs.get('user_agent',
                                      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari')
 
-        self.headers = {
+        self.headers: dict = {
             'authorization': token,
             'content-type': 'application/json',
             'cache-control': 'no-cache',
             'user-agent': user_agent,
         }
 
-    def send_message(self, channel_id: str | int, message: str | int):
+    def send_message(self, channel_id: str | int, message: str | int) -> requests.Response:
         URL: str = self.MESSAGES.format(channel_id=channel_id)
         guid: str = str(uuid.uuid4())
         # tts = Text to speech
-        payload = {'content': message, 'tts': False, 'nonce': guid[:15]}
+        payload: dict = {'content': message, 'tts': False, 'nonce': guid[:15]}
 
         return requests.post(url=URL, headers=self.headers,
                              json=payload, proxies=self.proxy)
 
-    def read_messages(self, channel_id: str):
+    def read_messages(self, channel_id: str) -> requests.Response:
         URL: str = self.MESSAGES.format(channel_id=channel_id)
         return requests.get(url=URL, headers=self.headers, proxies=self.proxy)
 
-    def delete_message(self, channel_id: str | int, message_id: str | int):
+    def delete_message(self, channel_id: str | int, message_id: str | int) -> requests.Response:
         URL: str = f'{self.MESSAGES.format(channel_id=channel_id)}/{message_id}'
         return requests.delete(url=URL, headers=self.headers, proxies=self.proxy)
 
-    def join_server(self, invite_code: str):
-        URL = self.JOIN_SERVER.format(invite_code=invite_code)
+    def join_server(self, invite_code: str) -> requests.Response:
+        URL: str = self.JOIN_SERVER.format(invite_code=invite_code)
         return requests.post(url=URL, headers=self.headers, proxies=self.proxy)
 
-    def get_friends(self):
-        URL = self.FRIEND_LIST
+    def get_friends(self) -> requests.Response:
+        URL: str = self.FRIEND_LIST
         return requests.get(URL, headers=self.headers)
 
-    def get_channels(self):
-        URL = self.CHANNELS
+    def get_channels(self) -> requests.Response:
+        URL: str = self.CHANNELS
         return requests.get(URL, headers=self.headers)
-
 
