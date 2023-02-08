@@ -1,15 +1,7 @@
 import requests
 import uuid
-import random
 
 
-random_user_agent = random.choice(requests.get(
-    'https://gist.githubusercontent.com/pzb/b4b6f57144aea7827ae4/raw/cf847b76a142955b1410c8bcef3aabe221a63db1/user-agents.txt').text.split(
-    '\n'))
-
-
-# 401 = Bad auth token
-# 429 = Rate Limit
 
 class Discord:
     
