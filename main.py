@@ -12,9 +12,9 @@ random_user_agent = random.choice(requests.get(
 # 429 = Rate Limit
 
 class Discord:
+    
     MESSAGES: str = "https://discord.com/api/v9/channels/{channel_id}/messages"
     JOIN_SERVER: str = "https://discord.com/api/v9/invite/{invite_code}"
-
     CHANNELS: str = "https://discord.com/api/v9/users/@me/channels"
 
     def __init__(self, token: str, **kwargs):
