@@ -64,5 +64,5 @@ for message in messages:
 ```
 
 
-# Terms of Use Disclaimer for Educational Project
+# Terms of Use Disclaimer
 This project is for educational purposes only and any use in violation of terms of service is the responsibility of the user.
