@@ -3,8 +3,11 @@ import uuid
 
 
 
+def nonce():
+    return str(uuid.uuid4())[:15]
+
+
 class Discord:
-    
     MESSAGES: str = "https://discord.com/api/v9/channels/{channel_id}/messages"
     JOIN_SERVER: str = "https://discord.com/api/v9/invite/{invite_code}"
     CHANNELS: str = "https://discord.com/api/v9/users/@me/channels"
@@ -12,13 +15,10 @@ class Discord:
     def __init__(self, token: str, **kwargs) -> None:
         self.proxy: str = kwargs.get('proxy', {})
 
-        if not isinstance(token, str):
-            raise ValueError(f'The authentication token must be a string not a {type(token)}')
-
         user_agent: str = kwargs.get('user_agent',
                                      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari')
 
-        self.headers: dict = {
+        self.headers: dict[str, str] = {
             'authorization': token,
             'content-type': 'application/json',
             'cache-control': 'no-cache',
@@ -27,9 +27,7 @@ class Discord:
 
     def send_message(self, channel_id: str | int, message: str | int) -> requests.Response:
         URL: str = self.MESSAGES.format(channel_id=channel_id)
-        guid: str = str(uuid.uuid4())
-        # tts = Text to speech
-        payload: dict = {'content': message, 'tts': False, 'nonce': guid[:15]}
+        payload: dict = {'content': message, 'tts': False, 'nonce': nonce()}
 
         return requests.post(url=URL, headers=self.headers,
                              json=payload, proxies=self.proxy)
@@ -49,4 +47,3 @@ class Discord:
     def get_channels(self) -> requests.Response:
         URL: str = self.CHANNELS
         return requests.get(URL, headers=self.headers)
-
