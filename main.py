@@ -9,7 +9,7 @@ class Discord:
     JOIN_SERVER: str = "https://discord.com/api/v9/invite/{invite_code}"
     CHANNELS: str = "https://discord.com/api/v9/users/@me/channels"
 
-    def __init__(self, token: str, **kwargs):
+    def __init__(self, token: str, **kwargs) -> None:
         self.proxy: str = kwargs.get('proxy', {})
 
         if not isinstance(token, str):
