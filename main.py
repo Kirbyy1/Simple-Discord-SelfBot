@@ -12,7 +12,6 @@ class Discord:
     JOIN_SERVER: str = "https://discord.com/api/v9/invite/{invite_code}"
     CHANNELS: str = "https://discord.com/api/v9/users/@me/channels"
     GUILDS: str = "https://discord.com/api/v9/guilds/{guild_id}"
-    GUILD_MEMBERS: str = "https://discord.com/api/v9/guilds/{guild_id}/members"
     INVITES: str = "https://discord.com/api/v9/guilds/{guild_id}/invites"
 
     def __init__(self, token: str, **kwargs) -> None:
@@ -59,10 +58,6 @@ class Discord:
 
     def get_guild_details(self, guild_id: str | int) -> requests.Response:
         URL: str = self.GUILDS.format(guild_id=guild_id)
-        return requests.get(url=URL, headers=self.headers, proxies=self.proxy)
-
-    def get_guild_members(self, guild_id: str | int) -> requests.Response:
-        URL: str = self.GUILD_MEMBERS.format(guild_id=guild_id)
         return requests.get(url=URL, headers=self.headers, proxies=self.proxy)
 
     def get_invites(self, guild_id: str | int) -> requests.Response:
