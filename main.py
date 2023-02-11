@@ -11,6 +11,9 @@ class Discord:
     MESSAGES: str = "https://discord.com/api/v9/channels/{channel_id}/messages"
     JOIN_SERVER: str = "https://discord.com/api/v9/invite/{invite_code}"
     CHANNELS: str = "https://discord.com/api/v9/users/@me/channels"
+    GUILDS: str = "https://discord.com/api/v9/guilds/{guild_id}"
+    GUILD_MEMBERS: str = "https://discord.com/api/v9/guilds/{guild_id}/members"
+    INVITES: str = "https://discord.com/api/v9/guilds/{guild_id}/invites"
 
     def __init__(self, token: str, **kwargs) -> None:
         self.proxy: str = kwargs.get('proxy', {})
@@ -32,6 +35,12 @@ class Discord:
         return requests.post(url=URL, headers=self.headers,
                              json=payload, proxies=self.proxy)
 
+    def edit_message(self, channel_id: str | int, message_id: str | int, new_message: str | int) -> requests.Response:
+        URL: str = f'{self.MESSAGES.format(channel_id=channel_id)}/{message_id}'
+        payload: dict = {'content': new_message, 'nonce': nonce()}
+        return requests.patch(url=URL, headers=self.headers,
+                              json=payload, proxies=self.proxy)
+
     def read_messages(self, channel_id: str) -> requests.Response:
         URL: str = self.MESSAGES.format(channel_id=channel_id)
         return requests.get(url=URL, headers=self.headers, proxies=self.proxy)
@@ -47,3 +56,15 @@ class Discord:
     def get_channels(self) -> requests.Response:
         URL: str = self.CHANNELS
         return requests.get(URL, headers=self.headers)
+
+    def get_guild_details(self, guild_id: str | int) -> requests.Response:
+        URL: str = self.GUILDS.format(guild_id=guild_id)
+        return requests.get(url=URL, headers=self.headers, proxies=self.proxy)
+
+    def get_guild_members(self, guild_id: str | int) -> requests.Response:
+        URL: str = self.GUILD_MEMBERS.format(guild_id=guild_id)
+        return requests.get(url=URL, headers=self.headers, proxies=self.proxy)
+
+    def get_invites(self, guild_id: str | int) -> requests.Response:
+        URL: str = self.INVITES.format(guild_id=guild_id)
+        return requests.get(url=URL, headers=self.headers, proxies=self.proxy)
